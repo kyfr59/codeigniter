@@ -14,6 +14,8 @@ const { src, dest, watch, series } = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const browsersync = require('browser-sync');
+const uglify  = require('gulp-uglify')
+const concat  = require('gulp-concat')
 
 // serve (with browsersync)
 function serve(done){
@@ -29,16 +31,23 @@ function compileFrontCSS(done) {
     .pipe(plumber())
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(autoprefixer())
+    .pipe(concat('index.min.css'))
     .pipe(dest('./public/css/'))
     .pipe(browsersync.stream());
     done();
 };
 
-function watchCSS() {
-    return watch('./scss/*.scss', series(serve, compileFrontCSS));
+function watchFiles() {
+    watch('./js/*.js', series(compileFrontJS));
+    watch('./scss/*.scss', series(compileFrontCSS));
 }
 
+function compileFrontJS(done) {
+    return src('js/*.js')
+    .pipe(concat('index.min.js'))
+    .pipe(uglify())
+    .pipe(dest('./public/js'));
+};
+
 exports.serve = serve;
-exports.dev = series(serve, compileFrontCSS, watchCSS);
-exports.build = series(compileFrontCSS);
-exports.default = series(serve, compileFrontCSS, watchCSS);
+exports.default = series(serve, compileFrontCSS, compileFrontJS, watchFiles);
