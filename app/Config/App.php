@@ -16,7 +16,7 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      */
-    public string $baseURL = 'http://localhost:8080/';
+    public string $baseURL = "http://codeigniter.local/";
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -199,4 +199,13 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    public function __construct()
+    {
+        if ($_SERVER['SERVER_NAME'] == 'localhost') {
+            $this->baseURL = 'http://codeigniter.local/';
+        } elseif ($_SERVER['SERVER_NAME'] == '172.22.22.134') {
+            $this->baseURL = 'http://172.22.22.134/';
+        }
+    }
 }
