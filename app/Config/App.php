@@ -202,10 +202,14 @@ class App extends BaseConfig
 
     public function __construct()
     {
-        if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        if (isset($_SERVER['SERVER_NAME'])) {
+            if ($_SERVER['SERVER_NAME'] == 'localhost') {
+                $this->baseURL = 'http://codeigniter.local/';
+            } elseif ($_SERVER['SERVER_NAME'] == '172.22.22.134') {
+                $this->baseURL = 'http://172.22.22.134/';
+            }
+        } else {
             $this->baseURL = 'http://codeigniter.local/';
-        } elseif ($_SERVER['SERVER_NAME'] == '172.22.22.134') {
-            $this->baseURL = 'http://172.22.22.134/';
         }
     }
 }
