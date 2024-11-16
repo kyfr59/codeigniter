@@ -7,3 +7,5 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/mentions-legales', 'Statics::legalNotices');
+
+service('auth')->routes($routes);

@@ -31,6 +31,7 @@ function compileFrontCSS(done) {
     .pipe(plumber())
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(autoprefixer())
+    .pipe(concat('index.min.css'))
     .pipe(dest('./public/css/'))
     .pipe(browsersync.stream());
     done();
@@ -43,7 +44,7 @@ function watchFiles() {
 
 function compileFrontJS(done) {
     return src('js/*.js')
-    .pipe(concat('index.js'))
+    .pipe(concat('index.min.js'))
     .pipe(uglify())
     .pipe(dest('./public/js'));
 };

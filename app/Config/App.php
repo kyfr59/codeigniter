@@ -93,7 +93,7 @@ class App extends BaseConfig
      * strings (like currency markers, numbers, etc), that your program
      * should run under for this request.
      */
-    public string $defaultLocale = 'en';
+    public string $defaultLocale = 'fr';
 
     /**
      * --------------------------------------------------------------------------
@@ -202,10 +202,14 @@ class App extends BaseConfig
 
     public function __construct()
     {
-        if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        if (isset($_SERVER['SERVER_NAME'])) {
+            if ($_SERVER['SERVER_NAME'] == 'localhost') {
+                $this->baseURL = 'http://codeigniter.local/';
+            } elseif ($_SERVER['SERVER_NAME'] == '172.22.22.134') {
+                $this->baseURL = 'http://172.22.22.134/';
+            }
+        } else {
             $this->baseURL = 'http://codeigniter.local/';
-        } elseif ($_SERVER['SERVER_NAME'] == '172.22.22.134') {
-            $this->baseURL = 'http://172.22.22.134/';
         }
     }
 }
