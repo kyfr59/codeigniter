@@ -1,4 +1,3 @@
-
 <?php if ($user = auth()->user()): ?>
     <a href="<?= url_to('logout') ?>"><?= lang('Auth.logout') ?></a></p>
 <?php else: ?>
